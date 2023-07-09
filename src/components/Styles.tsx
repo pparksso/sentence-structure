@@ -43,8 +43,13 @@ export const Box = styled.div`
   margin: 50px 0;
 `;
 
-export const TextBox = styled.textarea`
+export const WrapTextBox = styled.div`
   width: 40%;
+  height: 100%;
+`;
+
+export const TextBox = styled.textarea`
+  width: ${(props) => props.style?.width || '40%'};
   border-radius: 5px;
   height: 30rem;
   padding: 20px;
