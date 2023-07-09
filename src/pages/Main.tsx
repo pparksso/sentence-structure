@@ -1,10 +1,11 @@
 import * as S from '@/components/Styles';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import generate from '@/api/genarate';
 
 const Main = () => {
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const questionHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -14,18 +15,37 @@ const Main = () => {
   };
 
   const generateHandler = async (que: string) => {
+    setLoading(true);
     const res = await generate(que);
-    setAnswer(res.data.choices[0].message?.content as string);
+    setLoading(false);
+    const originalWords = question.split(' ');
+    const modifiedWords: string[] | undefined = res.data.choices[0].message?.content?.split(' ');
+    if (modifiedWords) {
+      const higilightedWords = modifiedWords.map((word, idx) => {
+        if (modifiedWords[idx] !== originalWords[idx]) {
+          return `<span style={{ color: '#ff0000' }}>${word}</span>`;
+        } else {
+          return word;
+        }
+      });
+      const result = higilightedWords.join(' ');
+      setAnswer(result);
+    }
   };
 
   return (
     <>
       <S.Global />
+      {loading && (
+        <S.Cover>
+          <img src="../../src/assets/images/loading.gif" alt="loading" style={{ width: '10rem', height: '10rem' }} />
+        </S.Cover>
+      )}
       <S.Container>
         <S.Title>맞춤법 검사기</S.Title>
         <S.Box>
           <S.WrapTextBox>
-            <S.TextBox style={{ width: '100%' }} value={question} onChange={questionHandler} />
+            <S.TextBox value={question} onChange={questionHandler} />
           </S.WrapTextBox>
           <span
             className="material-icons"
@@ -33,7 +53,7 @@ const Main = () => {
           >
             arrow_forward
           </span>
-          <S.TextBox readOnly={true} value={answer} />
+          <S.AnswerBox dangerouslySetInnerHTML={{ __html: answer }}></S.AnswerBox>
         </S.Box>
         <S.Button onClick={() => generateHandler(question)}>검사</S.Button>
       </S.Container>

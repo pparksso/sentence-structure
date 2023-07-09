@@ -49,7 +49,7 @@ export const WrapTextBox = styled.div`
 `;
 
 export const TextBox = styled.textarea`
-  width: ${(props) => props.style?.width || '40%'};
+  width: 100%;
   border-radius: 5px;
   height: 30rem;
   padding: 20px;
@@ -58,6 +58,21 @@ export const TextBox = styled.textarea`
   outline: none;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 1rem;
+`;
+
+export const AnswerBox = styled.div`
+  width: 40%;
+  border-radius: 5px;
+  height: 30rem;
+  padding: 20px;
+  border: 1px solid #ddd;
+  resize: none;
+  outline: none;
+  font-size: 1rem;
+  line-height: 1.5;
+  span {
+    color: #ff0000;
+  }
 `;
 
 export const Button = styled.button`
@@ -74,4 +89,17 @@ export const Button = styled.button`
   &:hover {
     background-color: #f29cad;
   }
+`;
+
+export const Cover = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
