@@ -21,14 +21,11 @@ const Main = () => {
     const originalWords = question.split(' ');
     const modifiedWords: string[] | undefined = res.data.choices[0].message?.content?.split(' ');
     if (modifiedWords) {
-      const higilightedWords = modifiedWords.map((word, idx) => {
-        if (modifiedWords[idx] !== originalWords[idx]) {
-          return `<span style={{ color: '#ff0000' }}>${word}</span>`;
-        } else {
-          return word;
-        }
+      const highlightedWords = modifiedWords.map((word) => {
+        if (!originalWords.includes(word)) return `<span>${word}</span>`;
+        else return word;
       });
-      const result = higilightedWords.join(' ');
+      const result = highlightedWords.join(' ').replace(/\n/g, `</br>`);
       setAnswer(result);
     }
   };

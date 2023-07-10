@@ -70,6 +70,7 @@ export const AnswerBox = styled.div`
   outline: none;
   font-size: 1rem;
   line-height: 1.5;
+  overflow-y: scroll;
   span {
     color: #ff0000;
   }
